@@ -49,8 +49,8 @@ func (apie *APIErr) Message(m string) *APIErr {
 	return apie
 }
 
-// Cotext : sets the context of the error - generally this is where the error has emanated from
-func (apie *APIErr) Cotext(c string) *APIErr {
+// Context : sets the context of the error - generally this is where the error has emanated from
+func (apie *APIErr) Context(c string) *APIErr {
 	apie.ctx = c
 	return apie
 }
