@@ -24,7 +24,14 @@ func TestErrLog(t *testing.T) {
 
 	err := apierr.Throw(fmt.Errorf("sample error for test"))
 	assert.NotNil(t, err, "unexpected nil value of error from Throw")
-	err.Code(apierr.ErrorCode(apierr.MarshallErr)).Context("testing/sample-err").LogInfo(log.WithFields(log.Fields{
+	err.Code(apierr.ErrorCode(apierr.NilResultErr)).Context("testing/sample-err").LogInfo(log.WithFields(log.Fields{
 		"sample": "sample value",
 	})).Message("sample message from within the testing package").Log()
+}
+
+func TestToHTTPCode(t *testing.T) {
+	code := apierr.ToHttpStatus(apierr.ErrorCode(apierr.InvldParamErr))
+	assert.Equal(t, 400, code, "unexpected http error code")
+	code = apierr.ToHttpStatus(apierr.ErrorCode(apierr.DBConnErr))
+	assert.Equal(t, 502, code, "unexpected http error code")
 }

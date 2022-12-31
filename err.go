@@ -96,8 +96,8 @@ func (apie *APIErr) LogInfo(li *log.Entry) *APIErr {
 // ------------------------
 // this helps in the client side code to get error details
 // ------------------------
-// toHttpStatus : maps the the code from
-func toHttpStatus(code ErrorCode) int {
+// ToHttpStatus : maps the the code from
+func ToHttpStatus(code ErrorCode) int {
 	codeMap := map[ErrorCode]int{
 		ErrorCode(MarshallErr):    http.StatusBadRequest,
 		ErrorCode(DBConnErr):      http.StatusBadGateway,
@@ -127,10 +127,12 @@ func Hndler(c *gin.Context) {
 */
 func (apie *APIErr) ToHTTPContext(c *gin.Context) {
 	if c != nil {
-		c.AbortWithStatusJSON(toHttpStatus(apie.code), gin.H{
+		c.AbortWithStatusJSON(ToHttpStatus(apie.code), gin.H{
 			"err": apie.Error(),
 		})
+		return
 	}
+	log.Warn("nil context, failed to set error into context")
 }
 
 // Log : this persists the error to the log as configured
