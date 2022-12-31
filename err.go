@@ -126,9 +126,11 @@ func Hndler(c *gin.Context) {
 }
 */
 func (apie *APIErr) ToHTTPContext(c *gin.Context) {
-	c.AbortWithStatusJSON(toHttpStatus(apie.code), gin.H{
-		"err": apie.Error(),
-	})
+	if c != nil {
+		c.AbortWithStatusJSON(toHttpStatus(apie.code), gin.H{
+			"err": apie.Error(),
+		})
+	}
 }
 
 // Log : this persists the error to the log as configured
