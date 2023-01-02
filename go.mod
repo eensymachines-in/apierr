@@ -1,4 +1,4 @@
-module github.com/eensymachines-in/apierr
+module github.com/eensymachines-in/apierr/v2
 
 go 1.15
 
